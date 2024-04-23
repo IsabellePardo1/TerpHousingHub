@@ -68,7 +68,11 @@ class Property:
             rating (float): a number 1-5 that represents a person's experience 
             living at this residence
         """
-        pass
+        # Make sure rating is in correct range
+        if 1 <= rating <= 5:
+            self.ratings.append(rating)
+        else:
+            print("Rating must be between 1 and 5.")
 
     def avg_rating(self):
         """ Calculates the average rating of a property
