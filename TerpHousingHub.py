@@ -29,10 +29,10 @@ def find_listing(address):
     Returns:
         Property: returns the Property object that matches the address
     """
-        for listing in housing:
-                if listing.address == address:
-                        return listing
-        return None
+    for listing in housing:
+            if listing.address == address:
+                    return listing
+    return None
 
 def browse(on_campus, min_rating):
     """ Finds as many listings of Properties that fit the specifications of the parameters.
@@ -59,7 +59,7 @@ class Property:
         
     """
     def __init__(self, address, on_campus, apply):
-
+        pass
 
     def add_rating(self, rating):
         """ Allows for someone to rate a property. Rating is added to the ratings attribute
