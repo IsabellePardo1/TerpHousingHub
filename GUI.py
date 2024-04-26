@@ -57,7 +57,7 @@ rating_scale = tk.Scale(rating_field, from_= 1, to = 5, variable = rating, orien
 rating_scale.pack(side=LEFT, padx=15)
 rating_field.pack(fill=X, expand=YES, padx=20)
 browse_button = ttk.Button(rating_field, text="Browse", width = 8)
-browse_button.pack(side="right", padx=0)
+browse_button.pack(side="right")
 browse_field.pack(fill=X, expand=YES)
 input_lf.pack(fill=X, anchor=N, expand=YES)
 input_frame.pack(side="bottom", fill=BOTH, expand=YES)
