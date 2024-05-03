@@ -30,9 +30,9 @@ def find_listing(address):
         Property: returns the Property object that matches the address
     """
     for listing in housing:
-            if listing.address == address:
+            if listing.address == address.upper():
                     return listing
-    return None
+    return "No Location Found: please add location"
 
 def browse(on_campus, min_rating):
     """ Finds as many listings of Properties that fit the specifications of the parameters.
@@ -59,7 +59,11 @@ class Property:
         
     """
     def __init__(self, address, on_campus, apply):
-        pass
+        self.address = address.upper()
+        self.ratings = []
+        self.on_campus = on_campus
+        self.apply = apply
+
 
     def add_rating(self, rating):
         """ Allows for someone to rate a property. Rating is added to the ratings attribute
@@ -80,7 +84,13 @@ class Property:
         Returns:
             float: return a average of the ratings associated with this property
         """
+        if len(self.ratings) == 0:
+            return 0
         sum = 0
         for x in self.ratings:
             sum += x
         return (sum/len(self.ratings))
+    
+if __name__ == "TerpHousingHub":
+    add_listing("5721 29th ave hyattsville, MD 20782", False, "zuly@apply.com")
+    add_listing("5012 edgewood rd college park, MD 20740", True, "applyHousing.com")
