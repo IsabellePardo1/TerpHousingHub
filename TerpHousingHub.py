@@ -6,6 +6,8 @@ Attributes:
         Housing (list of Properties): a list containing all the
             properties currently in our database of hosing options.
 """
+import random
+
 housing = []
 
 def add_listing(address, on_campus, apply):
@@ -89,8 +91,15 @@ class Property:
         sum = 0
         for x in self.ratings:
             sum += x
-        return (sum/len(self.ratings))
+        return round(sum/len(self.ratings),1)
     
 if __name__ == "TerpHousingHub":
     add_listing("5721 29th ave hyattsville, MD 20782", False, "zuly@apply.com")
     add_listing("5012 edgewood rd college park, MD 20740", True, "applyHousing.com")
+    add_listing("4300 Hartwick Rd College Park, MD 20740", True, "terrapinrow.com")
+    add_listing("2019 Amherst Rd hyattville, MD 20783", False, "teresaMart@gmail.com")
+    add_listing("8520 63rd ave berwyn heights, MD 20740", False, "ferLucero@verizon.net")
+    for x in housing:
+        x.add_rating(random.uniform(1.0, 5.0))
+        x.add_rating(random.uniform(1.0, 5.0))
+        x.add_rating(random.uniform(1.0, 5.0))

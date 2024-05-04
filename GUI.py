@@ -3,13 +3,39 @@ import tkinter as tk
 import ttkbootstrap as ttk
 import TerpHousingHub as logic
 
-def click():
-    logic.find_listing(entry_string.get())
+def refresh_data():
+    for item in tree.get_children():
+        tree.delete(item)
+    count = 0
+    for house in logic.housing:
+        tree.insert(parent='', index='end', iid=count, text='', values= (house.address, house.avg_rating(), house.on_campus, house.apply))
+        count += 1
+    
+def find_listing():
+    refresh_data()
+    prop = entry_string.get().upper()
+    for item in tree.get_children():
+        if prop not in tree.item(item, "values")[0]:
+            tree.delete(item)
+
+def browse_listings():
+    refresh_data()
+    for item in tree.get_children():
+        if float(tree.item(item, "values")[1]) < rating.get() or tree.item(item, "values")[2] != str(campus.get()):
+                tree.delete(item)
+
+def add_listing():
+    listing = logic.Property(add_string.get(), add_campus.get(), contact_var.get())
+    logic.housing.append(listing)
+    refresh_data()
+
+def select_property():
+    selected = tree.focus()
 
 #window
 root = ttk.Window(themename = 'morph')
 root.title('TerpHousingHub')
-root.geometry('1000x900')
+root.geometry('1200x900')
 
 # title
 title_label = ttk.Label(root, text = "Terp Housing Hub", font = 'Calibri 30')
@@ -17,8 +43,11 @@ title_label.pack(pady = 10)
 
 # variables
 entry_string = tk.StringVar()
+add_string = tk.StringVar()
 rating = ttk.DoubleVar(value = 3.5)
-new_rating = ttk.DoubleVar(value = 3.5)
+campus = ttk.BooleanVar()
+add_campus = ttk.StringVar()
+contact_var = ttk.StringVar()
 
 #input field
 input_frame = ttk.Frame(root, padding = 15)
@@ -29,7 +58,7 @@ entry_label = ttk.Label(search_field, text = "Address", width = 8)
 entry_label.pack(side=LEFT, padx=(15, 0))
 search_entry = ttk.Entry(search_field, textvariable = entry_string)
 search_entry.pack(side ='left', fill=X, expand=YES, padx=5)
-search_button = ttk.Button(search_field, text='Search', command = click, width = 8)
+search_button = ttk.Button(search_field, text='Search', command = find_listing, width = 8)
 search_button.pack(side ='left', padx = 5)
 search_field.pack(fill=X, expand=YES)
 # Browse Options
@@ -40,10 +69,9 @@ or_label.pack()
 browse_label.pack(side='left', padx=(15,0))
 
 #Radio Buttons
-campus = ttk.StringVar()
-on_radio = ttk.Radiobutton(browse_field, text = "On Campus", value = "oncampus", variable = campus)
+on_radio = ttk.Radiobutton(browse_field, text = "On Campus", value = True, variable = campus)
 on_radio.pack(side=LEFT, padx = 5)
-off_radio = ttk.Radiobutton(browse_field, text = "Off Campus", value = "offcampus", variable = campus)
+off_radio = ttk.Radiobutton(browse_field, text = "Off Campus", value = False, variable = campus)
 off_radio.pack(side=LEFT, padx = 5)
 
 
@@ -56,7 +84,7 @@ rating_value.pack(side=LEFT)
 rating_scale = tk.Scale(rating_field, from_= 1, to = 5, variable = rating, orient=HORIZONTAL, tickinterval=1, sliderlength = 10, length = 300, resolution=.1, fg = "white")
 rating_scale.pack(side=LEFT, padx=15)
 rating_field.pack(fill=X, expand=YES, padx=20)
-browse_button = ttk.Button(rating_field, text="Browse", width = 8)
+browse_button = ttk.Button(rating_field, text="Browse", width = 8, command = browse_listings)
 browse_button.pack(side="right")
 browse_field.pack(fill=X, expand=YES)
 input_lf.pack(fill=X, anchor=N, expand=YES)
@@ -84,25 +112,31 @@ tree.heading("On campus", text='On Campus?', anchor=CENTER)
 tree.heading("contact", text='Apply at:', anchor=W)
 
 # Insert some data
-count = 0
-print(len(logic.housing))
-for house in logic.housing:
-    tree.insert(parent='', index='end', iid=count, text='', values= (house.address, house.avg_rating(), house.on_campus, house.apply))
-    count += 1
+refresh_data()
 
 tree.pack(fill=BOTH, expand=YES, pady=10, padx = 20)
 
 #command field
 command_frame = ttk.LabelFrame(output_frame, text ="Commands")
 command_frame.pack(fill=X, expand=YES, padx=20)
-command_scale = tk.Scale(command_frame, from_= 1, to = 5, variable = new_rating, orient=HORIZONTAL, tickinterval=1, sliderlength = 10, length = 300, resolution=.1, fg = "white")
-command_scale.grid(row=0, column=0, padx=10, pady=10)
-scale_label = ttk.Label(command_frame, textvariable=new_rating)
-scale_label.grid(row=0, column=1, padx=10, pady=10)
+rate_entry = ttk.Entry(command_frame, width=10)
+rate_entry.grid(row=0, column=0, padx=10, pady=10)
 rate_button = ttk.Button(command_frame, text = "Rate This Housing Unit")
-rate_button.grid(row=0, column=2, padx=10, pady=10)
-add_button = ttk.Button(command_frame, text = "Add New Housing Unit")
-add_button.grid(row=1, column=0, padx=10, pady=10)
+rate_button.grid(row=0, column=1, padx=10, pady=10)
+add_label = ttk.Label(command_frame, text = "Address:", width = 8)
+add_label.grid(row=1, column=0, padx=0, pady=10)
+add_entry = ttk.Entry(command_frame, textvariable = add_string)
+add_entry.grid(row=1, column=1, padx=10, pady=10)
+contact_label = ttk.Label(command_frame, text = "Info at:", width = 8)
+contact_label.grid(row=1, column=2, padx=0, pady=10)
+contact_entry = ttk.Entry(command_frame, textvariable = contact_var, width=20)
+contact_entry.grid(row=1, column=3, padx=0, pady=10)
+add_on = ttk.Radiobutton(command_frame, text = "On Campus", value = True, variable = add_campus)
+add_on.grid(row=1, column=4, padx=10, pady=10)
+add_off = ttk.Radiobutton(command_frame, text = "Off Campus", value = False, variable = add_campus)
+add_off.grid(row=1, column=5, padx=10, pady=10)
+add_button = ttk.Button(command_frame, text = "Add New Housing Unit", command=add_listing)
+add_button.grid(row=1, column=6, padx=20, pady=10)
 
 # Output label
 output_string = ttk.StringVar()
