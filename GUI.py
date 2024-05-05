@@ -8,7 +8,9 @@ def refresh_data():
         tree.delete(item)
     count = 0
     for house in logic.housing:
-        tree.insert(parent='', index='end', iid=count, text='', values= (house.address, house.avg_rating(), house.on_campus, house.apply))
+        root = tree.insert(parent='', index='end', iid=count, text='', values= (house.address, house.avg_rating(), house.on_campus, house.apply))
+        for review in house.reviews:
+            tree.insert(root, 'end', text=review, values=(review,))
         count += 1
     
 def find_listing():
@@ -33,14 +35,14 @@ def rate():
     selected = tree.focus()
     address = tree.item(selected, 'values')[0]
     property_obj = logic.find_listing(address)
-    property_obj.add_rating(new_rating.get())
+    property_obj.add_rating(new_rating.get(), new_review.get())
     refresh_data()
 
 
 #window
 root = ttk.Window(themename = 'morph')
 root.title('TerpHousingHub')
-root.geometry('1200x900')
+root.geometry('1200x650')
 
 # title
 title_label = ttk.Label(root, text = "Terp Housing Hub", font = 'Calibri 30')
@@ -52,6 +54,7 @@ add_string = tk.StringVar()
 rating = ttk.DoubleVar(value = 3.5)
 campus = ttk.BooleanVar()
 new_rating = ttk.DoubleVar()
+new_review = ttk.StringVar()
 add_campus = ttk.BooleanVar()
 contact_var = ttk.StringVar()
 
@@ -125,10 +128,14 @@ tree.pack(fill=BOTH, expand=YES, pady=10, padx = 20)
 #command field
 command_frame = ttk.LabelFrame(output_frame, text ="Commands")
 command_frame.pack(fill=X, expand=YES, padx=20)
+review_label = ttk.Label(command_frame, text="Leave a comment:")
+review_label.grid(row=0, column=0, padx=10, pady=10)
+review_entry = ttk.Entry(command_frame, textvariable = new_review)
+review_entry.grid(row=0, column=1, padx=10, pady=10)
 rate_entry = ttk.Entry(command_frame, width=10, textvariable = new_rating)
-rate_entry.grid(row=0, column=0, padx=10, pady=10)
+rate_entry.grid(row=0, column=2, padx=10, pady=10)
 rate_button = ttk.Button(command_frame, text = "Rate This Housing Unit", command = rate)
-rate_button.grid(row=0, column=1, padx=10, pady=10)
+rate_button.grid(row=0, column=3, padx=10, pady=10)
 add_label = ttk.Label(command_frame, text = "Address:", width = 8)
 add_label.grid(row=1, column=0, padx=0, pady=10)
 add_entry = ttk.Entry(command_frame, textvariable = add_string)

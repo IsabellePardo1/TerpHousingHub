@@ -63,11 +63,12 @@ class Property:
     def __init__(self, address, on_campus, apply):
         self.address = address.upper()
         self.ratings = []
+        self.reviews = []
         self.on_campus = on_campus
         self.apply = apply
 
 
-    def add_rating(self, rating):
+    def add_rating(self, rating, review):
         """ Allows for someone to rate a property. Rating is added to the ratings attribute
 
         Args:
@@ -79,6 +80,9 @@ class Property:
             self.ratings.append(rating)
         else:
             print("Rating must be between 1 and 5.")
+        
+        if len(review) != 0:
+            self.reviews.append(review)
 
     def avg_rating(self):
         """ Calculates the average rating of a property
@@ -99,7 +103,10 @@ if __name__ == "TerpHousingHub":
     add_listing("4300 Hartwick Rd College Park, MD 20740", True, "terrapinrow.com")
     add_listing("2019 Amherst Rd hyattville, MD 20783", False, "teresaMart@gmail.com")
     add_listing("8520 63rd ave berwyn heights, MD 20740", False, "ferLucero@verizon.net")
+    add_listing("8923 Regents Dr College Park, MD 20741", True, "ferLucero@verizon.net")
+    add_listing("1122 berwyn st greenbelt, MD 20743", False, "callme@verizon.net")
+    add_listing("5555 50th ave College Park, MD 20740", True, "abc@apply.net")
     for x in housing:
-        x.add_rating(random.uniform(1.0, 5.0))
-        x.add_rating(random.uniform(1.0, 5.0))
-        x.add_rating(random.uniform(1.0, 5.0))
+        x.add_rating(random.uniform(1.0, 5.0), "good place")
+        x.add_rating(random.uniform(1.0, 5.0), "bad location")
+        x.add_rating(random.uniform(1.0, 5.0), "great landlord!")
