@@ -61,6 +61,13 @@ class Property:
         
     """
     def __init__(self, address, on_campus, apply):
+        """Initializes a new instance of a class with specified attributes.
+
+        Args:
+            address (str): The physical address of the entity (e.g., a building or dormitory).
+            on_campus (bool):  Indicates whether the entity is located on a campus (True) or off-campus (False).
+            apply (function): A function or callable object that defines how to interact with the entity.
+        """
         self.address = address.upper()
         self.ratings = []
         self.reviews = []
