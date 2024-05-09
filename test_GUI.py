@@ -1,3 +1,9 @@
+"""Allows us to view and test GUI.py. In order to test functionality fill
+out entry boxes, choose radio buttons, adjust sliders, and click buttons.
+Output should be visible in the middle section where the treeview results
+table is present.
+
+"""
 import pytest
 from GUI import App
 
