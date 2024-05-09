@@ -1,10 +1,13 @@
 """ 
 This script allows for UMD students to browse through student housing 
-options and leave reviews for their current housing.
+options and leave reviews for their current housing. This script provides 
+all the logic for making adjustments to the list containing the resources 
+in our app. It also contains the Property class which represents a housing 
+unit.
 
 Attributes:
         Housing (list of Properties): a list containing all the
-            properties currently in our database of hosing options.
+            properties currently in our app.
 """
 import random
 
@@ -36,27 +39,17 @@ def find_listing(address):
                     return listing
     return "No Location Found: please add location"
 
-def browse(on_campus, min_rating):
-    """ Finds as many listings of Properties that fit the specifications of the parameters.
-        If on_campus is True only listings on campus will be returned. If min_rating is 2.5 
-        only Properties with a rating of 2.5 or more will be returned.
-
-    Args:
-        on-campus (boolean): True if listing should be on campus, False if listing should be off campus
-        min-rating (float): the minimum rating a listing should have
-
-    Returns:
-        list: returns a list of properties that match the specifications
-    """
-    pass
-
 class Property:
     """ A class that represents single property listing
 
     Attributes:
         address (string) : the address of the listed property
-        ratings (list of floats) : list of ratings (a number 1-5) given by past tennents
-        on-campus (bool): true if the listing in on campus, false if listing is off-campus
+        ratings (list of floats) : list of ratings (a number 1-5) given by 
+                past tennents
+        reviews (list of strings) : list of reviews/comments from past tennants 
+                for the property
+        on-campus (bool): true if the listing in on campus, false if listing is 
+                off-campus
         apply (string): url or email to apply for the residence
         
     """
@@ -64,9 +57,12 @@ class Property:
         """Initializes a new instance of a class with specified attributes.
 
         Args:
-            address (str): The physical address of the entity (e.g., a building or dormitory).
-            on_campus (bool):  Indicates whether the entity is located on a campus (True) or off-campus (False).
-            apply (function): A function or callable object that defines how to interact with the entity.
+            address (str): The physical address of the entity (e.g., a building 
+                    or dormitory).
+            on_campus (bool):  Indicates whether the entity is located on a 
+                    campus (True) or off-campus (False).
+            apply (function): A function or callable object that defines how to 
+                    interact with the entity.
         """
         self.address = address.upper()
         self.ratings = []
@@ -76,7 +72,8 @@ class Property:
 
 
     def add_rating(self, rating, review):
-        """ Allows for someone to rate a property. Rating is added to the ratings attribute
+        """ Allows for someone to rate a property. Rating is added to the 
+        ratings attribute
 
         Args:
             rating (float): a number 1-5 that represents a person's experience 
@@ -105,6 +102,9 @@ class Property:
         return round(sum/len(self.ratings),1)
     
 if __name__ == "TerpHousingHub":
+    """This puts in sample data into our app so that the functionality 
+    is visible
+    """
     add_listing("5721 29th ave hyattsville, MD 20782", False, "zuly@apply.com")
     add_listing("5012 edgewood rd college park, MD 20740", True, "applyHousing.com")
     add_listing("4300 Hartwick Rd College Park, MD 20740", True, "terrapinrow.com")
