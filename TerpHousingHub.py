@@ -11,6 +11,7 @@ Attributes:
 """
 import random
 
+# In-memory database (for example purposes)
 housing = []
 
 def add_listing(address, on_campus, apply):
