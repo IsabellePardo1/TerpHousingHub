@@ -22,8 +22,9 @@ def add_listing(address, on_campus, apply):
         on_campus (bool): True if the property is on campus, False otherwise
         apply (string): information on how to apply for listed property
     """
-    listing = Property (address, on_campus, apply)
-    housing.append(listing)
+    if len(address) > 0 and len(apply) > 0:
+        listing = Property (address, on_campus, apply)
+        housing.append(listing)
 
 
 def find_listing(address):
@@ -104,7 +105,7 @@ class Property:
     
 if __name__ == "TerpHousingHub":
     """This puts in sample data into our app so that the functionality 
-    is visible
+    is visible and testing is easier
     """
     add_listing("5721 29th ave hyattsville, MD 20782", False, "zuly@apply.com")
     add_listing("5012 edgewood rd college park, MD 20740", True, "applyHousing.com")
